@@ -1,0 +1,3054 @@
+Useless nonterminals
+
+   literal_name_plus
+
+
+Terminals which are not used
+
+   SITUATION_TOK
+   BSITUATION_TOK
+
+
+Useless rules
+
+  119 literal_name_plus: literal_name
+  120                  | literal_name literal_name_plus
+
+
+State 118 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: file $end
+
+    1 file: /* empty */
+    2     | problem_definition file
+
+    3 @1: /* empty */
+
+    4 problem_definition: OPEN_PAREN DEFINE_TOK @1 problem_name problem_defs CLOSE_PAREN
+
+    5 problem_name: OPEN_PAREN PROBLEM_TOK NAME CLOSE_PAREN
+
+    6 base_domain_name: OPEN_PAREN BDOMAIN_TOK NAME CLOSE_PAREN
+
+    7 problem_defs: /* empty */
+    8             | problem_defs objects_def
+    9             | problem_defs init_def
+   10             | problem_defs goal_def
+   11             | problem_defs base_domain_name
+   12             | problem_defs metric_def
+   13             | problem_defs constraints_def
+
+   14 objects_def: OPEN_PAREN OBJECTS_TOK typed_list_name CLOSE_PAREN
+
+   15 @2: /* empty */
+
+   16 init_def: OPEN_PAREN INIT_TOK @2 init_el_plus CLOSE_PAREN
+
+   17 @3: /* empty */
+
+   18 goal_def: OPEN_PAREN GOAL_TOK @3 pre_GD CLOSE_PAREN
+
+   19 @4: /* empty */
+
+   20 constraints_def: OPEN_PAREN CONSTRAINTS_TOK @4 pref_con_GD CLOSE_PAREN
+
+   21 pre_GD: OPEN_PAREN CLOSE_PAREN
+   22       | pref_GD
+   23       | OPEN_PAREN dis_AND_TOK pre_GD_star CLOSE_PAREN
+
+   24 @5: /* empty */
+
+   25 pre_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @5 CLOSE_PAREN pre_GD CLOSE_PAREN
+
+   26 pref_GD: OPEN_PAREN PREFERENCE_TOK NAME adl_goal_description CLOSE_PAREN
+   27        | OPEN_PAREN PREFERENCE_TOK adl_goal_description CLOSE_PAREN
+   28        | adl_goal_description1
+
+   29 pre_GD_star: /* empty */
+   30            | pre_GD_star pre_GD
+
+   31 pref_con_GD: OPEN_PAREN dis_AND_TOK pref_con_GD_star CLOSE_PAREN
+
+   32 @6: /* empty */
+
+   33 pref_con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @6 CLOSE_PAREN pref_con_GD CLOSE_PAREN
+   34            | OPEN_PAREN PREFERENCE_TOK NAME con_GD CLOSE_PAREN
+   35            | OPEN_PAREN PREFERENCE_TOK con_GD CLOSE_PAREN
+   36            | con_GD1
+
+   37 pref_con_GD_star: /* empty */
+   38                 | pref_con_GD pref_con_GD_star
+
+   39 con_GD: con_GD1
+   40       | OPEN_PAREN dis_AND_TOK con_GD_star CLOSE_PAREN
+   41       | OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN con_GD1 CLOSE_PAREN
+
+   42 con_GD1: OPEN_PAREN AT_END_TOK adl_goal_description CLOSE_PAREN
+   43        | OPEN_PAREN ALWAYS_TOK adl_goal_description CLOSE_PAREN
+   44        | OPEN_PAREN SOMETIME_TOK adl_goal_description CLOSE_PAREN
+   45        | OPEN_PAREN WITHIN_TOK NUM adl_goal_description CLOSE_PAREN
+   46        | OPEN_PAREN AT_MOST_ONCE_TOK adl_goal_description CLOSE_PAREN
+   47        | OPEN_PAREN SOMETIME_AFTER_TOK adl_goal_description adl_goal_description CLOSE_PAREN
+   48        | OPEN_PAREN SOMETIME_BEFORE_TOK adl_goal_description adl_goal_description CLOSE_PAREN
+   49        | OPEN_PAREN ALWAYS_WITHIN_TOK NUM adl_goal_description adl_goal_description CLOSE_PAREN
+   50        | OPEN_PAREN HOLD_DURING_TOK NUM NUM adl_goal_description CLOSE_PAREN
+   51        | OPEN_PAREN HOLD_AFTER_TOK NUM adl_goal_description CLOSE_PAREN
+
+   52 con_GD_star: /* empty */
+   53            | con_GD1 con_GD_star
+
+   54 metric_def: OPEN_PAREN METRIC_TOK NAME ground_f_exp CLOSE_PAREN
+
+   55 adl_goal_description: adl_goal_description1
+   56                     | OPEN_PAREN dis_AND_TOK adl_goal_description_star CLOSE_PAREN
+   57                     | OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN adl_goal_description CLOSE_PAREN
+
+   58 adl_goal_description1: OPEN_PAREN LE_TOK f_exp f_exp CLOSE_PAREN
+   59                      | OPEN_PAREN LEQ_TOK f_exp f_exp CLOSE_PAREN
+   60                      | OPEN_PAREN EQ_TOK f_exp f_exp CLOSE_PAREN
+   61                      | OPEN_PAREN GEQ_TOK f_exp f_exp CLOSE_PAREN
+   62                      | OPEN_PAREN GE_TOK f_exp f_exp CLOSE_PAREN
+   63                      | literal_term
+   64                      | OPEN_PAREN dis_OR_TOK adl_goal_description_star CLOSE_PAREN
+   65                      | OPEN_PAREN dis_NOT_TOK adl_goal_description CLOSE_PAREN
+   66                      | OPEN_PAREN IMPLY_TOK adl_goal_description adl_goal_description CLOSE_PAREN
+   67                      | OPEN_PAREN dis_EXISTS_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN adl_goal_description CLOSE_PAREN
+
+   68 adl_goal_description_star: /* empty */
+   69                          | adl_goal_description adl_goal_description_star
+
+   70 init_el_plus: init_el
+   71             | init_el_plus init_el
+
+   72 init_el: literal_name
+   73        | OPEN_PAREN EQ_TOK OPEN_PAREN NAME name_star CLOSE_PAREN NUM CLOSE_PAREN
+   74        | OPEN_PAREN EQ_TOK NAME NUM CLOSE_PAREN
+   75        | OPEN_PAREN AT_TOK literal_name CLOSE_PAREN
+
+   76 f_exp: NUM
+   77      | OPEN_PAREN NAME term_star CLOSE_PAREN
+   78      | OPEN_PAREN MINUS_TOK f_exp CLOSE_PAREN
+   79      | OPEN_PAREN AD_TOK f_exp f_exp CLOSE_PAREN
+   80      | OPEN_PAREN MINUS_TOK f_exp f_exp CLOSE_PAREN
+   81      | OPEN_PAREN MU_TOK f_exp f_exp CLOSE_PAREN
+   82      | OPEN_PAREN DI_TOK f_exp f_exp CLOSE_PAREN
+
+   83 ground_f_exp: NUM
+   84             | OPEN_PAREN NAME name_star CLOSE_PAREN
+   85             | OPEN_PAREN MINUS_TOK ground_f_exp CLOSE_PAREN
+   86             | OPEN_PAREN AD_TOK ground_f_exp plus_ground_f_exp_plus CLOSE_PAREN
+   87             | OPEN_PAREN MU_TOK ground_f_exp mul_ground_f_exp_plus CLOSE_PAREN
+   88             | OPEN_PAREN MINUS_TOK ground_f_exp ground_f_exp CLOSE_PAREN
+   89             | OPEN_PAREN DI_TOK ground_f_exp ground_f_exp CLOSE_PAREN
+   90             | OPEN_PAREN IS_VIOLATED_TOK NAME CLOSE_PAREN
+
+   91 plus_ground_f_exp_plus: ground_f_exp
+   92                       | plus_ground_f_exp_plus ground_f_exp
+
+   93 mul_ground_f_exp_plus: ground_f_exp
+   94                      | mul_ground_f_exp_plus ground_f_exp
+
+   95 literal_term: OPEN_PAREN dis_NOT_TOK atomic_formula_term CLOSE_PAREN
+   96             | atomic_formula_term
+
+   97 atomic_formula_term: OPEN_PAREN predicate term_star CLOSE_PAREN
+   98                    | OPEN_PAREN EQ_TOK term_star CLOSE_PAREN
+
+   99 term_star: /* empty */
+  100          | term term_star
+
+  101 term: NAME
+  102     | VARIABLE
+
+  103 name_plus: NAME
+  104          | NAME name_plus
+
+  105 typed_list_name: /* empty */
+  106                | NAME EITHER_TOK name_plus CLOSE_PAREN typed_list_name
+  107                | NAME MINUS_TOK NAME typed_list_name
+  108                | NAME typed_list_name
+
+  109 typed_list_variable: /* empty */
+  110                    | VARIABLE EITHER_TOK name_plus CLOSE_PAREN typed_list_variable
+  111                    | VARIABLE MINUS_TOK NAME typed_list_variable
+  112                    | VARIABLE typed_list_variable
+
+  113 predicate: NAME
+
+  114 literal_name: OPEN_PAREN dis_NOT_TOK atomic_formula_name CLOSE_PAREN
+  115             | atomic_formula_name
+
+  116 atomic_formula_name: OPEN_PAREN predicate name_star CLOSE_PAREN
+
+  117 name_star: /* empty */
+  118          | NAME name_star
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+DEFINE_TOK (258) 4
+PROBLEM_TOK (259) 5
+SITUATION_TOK (260)
+BSITUATION_TOK (261)
+OBJECTS_TOK (262) 14
+BDOMAIN_TOK (263) 6
+INIT_TOK (264) 16
+GOAL_TOK (265) 18
+METRIC_TOK (266) 54
+dis_AND_TOK (267) 23 31 40 56
+dis_NOT_TOK (268) 65 95 114
+NAME (269) 5 6 26 34 54 73 74 77 84 90 101 103 104 106 107 108 111
+    113 118
+VARIABLE (270) 102 110 111 112
+NUM (271) 45 49 50 51 73 74 76 83
+LE_TOK (272) 58
+LEQ_TOK (273) 59
+EQ_TOK (274) 60 73 74 98
+GEQ_TOK (275) 61
+GE_TOK (276) 62
+MINUS_TOK (277) 78 80 85 88 107 111
+AD_TOK (278) 79 86
+MU_TOK (279) 81 87
+DI_TOK (280) 82 89
+Fdis_ORdis_ALL_TOK (281) 25 33 41 57
+IMPLY_TOK (282) 66
+dis_OR_TOK (283) 64
+dis_EXISTS_TOK (284) 67
+EITHER_TOK (285) 106 110
+OPEN_PAREN (286) 4 5 6 14 16 18 20 21 23 25 26 27 31 33 34 35 40 41
+    42 43 44 45 46 47 48 49 50 51 54 56 57 58 59 60 61 62 64 65 66
+    67 73 74 75 77 78 79 80 81 82 84 85 86 87 88 89 90 95 97 98 114
+    116
+CLOSE_PAREN (287) 4 5 6 14 16 18 20 21 23 25 26 27 31 33 34 35 40 41
+    42 43 44 45 46 47 48 49 50 51 54 56 57 58 59 60 61 62 64 65 66
+    67 73 74 75 77 78 79 80 81 82 84 85 86 87 88 89 90 95 97 98 106
+    110 114 116
+AT_TOK (288) 75
+CONSTRAINTS_TOK (289) 20
+PREFERENCE_TOK (290) 26 27 34 35
+WITHIN_TOK (291) 45
+SOMETIME_TOK (292) 44
+ALWAYS_TOK (293) 43
+AT_MOST_ONCE_TOK (294) 46
+SOMETIME_AFTER_TOK (295) 47
+SOMETIME_BEFORE_TOK (296) 48
+ALWAYS_WITHIN_TOK (297) 49
+HOLD_DURING_TOK (298) 50
+HOLD_AFTER_TOK (299) 51
+IS_VIOLATED_TOK (300) 90
+AT_END_TOK (301) 42
+
+
+Nonterminals, with rules where they appear
+
+$accept (47)
+    on left: 0
+file (48)
+    on left: 1 2, on right: 0 2
+problem_definition (49)
+    on left: 4, on right: 2
+@1 (50)
+    on left: 3, on right: 4
+problem_name (51)
+    on left: 5, on right: 4
+base_domain_name (52)
+    on left: 6, on right: 11
+problem_defs (53)
+    on left: 7 8 9 10 11 12 13, on right: 4 8 9 10 11 12 13
+objects_def (54)
+    on left: 14, on right: 8
+init_def (55)
+    on left: 16, on right: 9
+@2 (56)
+    on left: 15, on right: 16
+goal_def (57)
+    on left: 18, on right: 10
+@3 (58)
+    on left: 17, on right: 18
+constraints_def (59)
+    on left: 20, on right: 13
+@4 (60)
+    on left: 19, on right: 20
+pre_GD (61)
+    on left: 21 22 23 25, on right: 18 25 30
+@5 (62)
+    on left: 24, on right: 25
+pref_GD (63)
+    on left: 26 27 28, on right: 22
+pre_GD_star (64)
+    on left: 29 30, on right: 23 30
+pref_con_GD (65)
+    on left: 31 33 34 35 36, on right: 20 33 38
+@6 (66)
+    on left: 32, on right: 33
+pref_con_GD_star (67)
+    on left: 37 38, on right: 31 38
+con_GD (68)
+    on left: 39 40 41, on right: 34 35
+con_GD1 (69)
+    on left: 42 43 44 45 46 47 48 49 50 51, on right: 36 39 41 53
+con_GD_star (70)
+    on left: 52 53, on right: 40 53
+metric_def (71)
+    on left: 54, on right: 12
+adl_goal_description (72)
+    on left: 55 56 57, on right: 26 27 42 43 44 45 46 47 48 49 50 51
+    57 65 66 67 69
+adl_goal_description1 (73)
+    on left: 58 59 60 61 62 63 64 65 66 67, on right: 28 55
+adl_goal_description_star (74)
+    on left: 68 69, on right: 56 64 69
+init_el_plus (75)
+    on left: 70 71, on right: 16 71
+init_el (76)
+    on left: 72 73 74 75, on right: 70 71
+f_exp (77)
+    on left: 76 77 78 79 80 81 82, on right: 58 59 60 61 62 78 79 80
+    81 82
+ground_f_exp (78)
+    on left: 83 84 85 86 87 88 89 90, on right: 54 85 86 87 88 89 91
+    92 93 94
+plus_ground_f_exp_plus (79)
+    on left: 91 92, on right: 86 92
+mul_ground_f_exp_plus (80)
+    on left: 93 94, on right: 87 94
+literal_term (81)
+    on left: 95 96, on right: 63
+atomic_formula_term (82)
+    on left: 97 98, on right: 95 96
+term_star (83)
+    on left: 99 100, on right: 77 97 98 100
+term (84)
+    on left: 101 102, on right: 100
+name_plus (85)
+    on left: 103 104, on right: 104 106 110
+typed_list_name (86)
+    on left: 105 106 107 108, on right: 14 106 107 108
+typed_list_variable (87)
+    on left: 109 110 111 112, on right: 25 33 41 57 67 110 111 112
+predicate (88)
+    on left: 113, on right: 97 116
+literal_name (89)
+    on left: 114 115, on right: 72 75
+atomic_formula_name (90)
+    on left: 116, on right: 114 115
+name_star (91)
+    on left: 117 118, on right: 73 84 116 118
+
+
+state 0
+
+    0 $accept: . file $end
+
+    OPEN_PAREN  shift, and go to state 1
+
+    $default  reduce using rule 1 (file)
+
+    file                go to state 2
+    problem_definition  go to state 3
+
+
+state 1
+
+    4 problem_definition: OPEN_PAREN . DEFINE_TOK @1 problem_name problem_defs CLOSE_PAREN
+
+    DEFINE_TOK  shift, and go to state 4
+
+
+state 2
+
+    0 $accept: file . $end
+
+    $end  shift, and go to state 5
+
+
+state 3
+
+    2 file: problem_definition . file
+
+    OPEN_PAREN  shift, and go to state 1
+
+    $default  reduce using rule 1 (file)
+
+    file                go to state 6
+    problem_definition  go to state 3
+
+
+state 4
+
+    4 problem_definition: OPEN_PAREN DEFINE_TOK . @1 problem_name problem_defs CLOSE_PAREN
+
+    $default  reduce using rule 3 (@1)
+
+    @1  go to state 7
+
+
+state 5
+
+    0 $accept: file $end .
+
+    $default  accept
+
+
+state 6
+
+    2 file: problem_definition file .
+
+    $default  reduce using rule 2 (file)
+
+
+state 7
+
+    4 problem_definition: OPEN_PAREN DEFINE_TOK @1 . problem_name problem_defs CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 8
+
+    problem_name  go to state 9
+
+
+state 8
+
+    5 problem_name: OPEN_PAREN . PROBLEM_TOK NAME CLOSE_PAREN
+
+    PROBLEM_TOK  shift, and go to state 10
+
+
+state 9
+
+    4 problem_definition: OPEN_PAREN DEFINE_TOK @1 problem_name . problem_defs CLOSE_PAREN
+
+    $default  reduce using rule 7 (problem_defs)
+
+    problem_defs  go to state 11
+
+
+state 10
+
+    5 problem_name: OPEN_PAREN PROBLEM_TOK . NAME CLOSE_PAREN
+
+    NAME  shift, and go to state 12
+
+
+state 11
+
+    4 problem_definition: OPEN_PAREN DEFINE_TOK @1 problem_name problem_defs . CLOSE_PAREN
+    8 problem_defs: problem_defs . objects_def
+    9             | problem_defs . init_def
+   10             | problem_defs . goal_def
+   11             | problem_defs . base_domain_name
+   12             | problem_defs . metric_def
+   13             | problem_defs . constraints_def
+
+    OPEN_PAREN   shift, and go to state 13
+    CLOSE_PAREN  shift, and go to state 14
+
+    base_domain_name  go to state 15
+    objects_def       go to state 16
+    init_def          go to state 17
+    goal_def          go to state 18
+    constraints_def   go to state 19
+    metric_def        go to state 20
+
+
+state 12
+
+    5 problem_name: OPEN_PAREN PROBLEM_TOK NAME . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 21
+
+
+state 13
+
+    6 base_domain_name: OPEN_PAREN . BDOMAIN_TOK NAME CLOSE_PAREN
+   14 objects_def: OPEN_PAREN . OBJECTS_TOK typed_list_name CLOSE_PAREN
+   16 init_def: OPEN_PAREN . INIT_TOK @2 init_el_plus CLOSE_PAREN
+   18 goal_def: OPEN_PAREN . GOAL_TOK @3 pre_GD CLOSE_PAREN
+   20 constraints_def: OPEN_PAREN . CONSTRAINTS_TOK @4 pref_con_GD CLOSE_PAREN
+   54 metric_def: OPEN_PAREN . METRIC_TOK NAME ground_f_exp CLOSE_PAREN
+
+    OBJECTS_TOK      shift, and go to state 22
+    BDOMAIN_TOK      shift, and go to state 23
+    INIT_TOK         shift, and go to state 24
+    GOAL_TOK         shift, and go to state 25
+    METRIC_TOK       shift, and go to state 26
+    CONSTRAINTS_TOK  shift, and go to state 27
+
+
+state 14
+
+    4 problem_definition: OPEN_PAREN DEFINE_TOK @1 problem_name problem_defs CLOSE_PAREN .
+
+    $default  reduce using rule 4 (problem_definition)
+
+
+state 15
+
+   11 problem_defs: problem_defs base_domain_name .
+
+    $default  reduce using rule 11 (problem_defs)
+
+
+state 16
+
+    8 problem_defs: problem_defs objects_def .
+
+    $default  reduce using rule 8 (problem_defs)
+
+
+state 17
+
+    9 problem_defs: problem_defs init_def .
+
+    $default  reduce using rule 9 (problem_defs)
+
+
+state 18
+
+   10 problem_defs: problem_defs goal_def .
+
+    $default  reduce using rule 10 (problem_defs)
+
+
+state 19
+
+   13 problem_defs: problem_defs constraints_def .
+
+    $default  reduce using rule 13 (problem_defs)
+
+
+state 20
+
+   12 problem_defs: problem_defs metric_def .
+
+    $default  reduce using rule 12 (problem_defs)
+
+
+state 21
+
+    5 problem_name: OPEN_PAREN PROBLEM_TOK NAME CLOSE_PAREN .
+
+    $default  reduce using rule 5 (problem_name)
+
+
+state 22
+
+   14 objects_def: OPEN_PAREN OBJECTS_TOK . typed_list_name CLOSE_PAREN
+
+    NAME  shift, and go to state 28
+
+    $default  reduce using rule 105 (typed_list_name)
+
+    typed_list_name  go to state 29
+
+
+state 23
+
+    6 base_domain_name: OPEN_PAREN BDOMAIN_TOK . NAME CLOSE_PAREN
+
+    NAME  shift, and go to state 30
+
+
+state 24
+
+   16 init_def: OPEN_PAREN INIT_TOK . @2 init_el_plus CLOSE_PAREN
+
+    $default  reduce using rule 15 (@2)
+
+    @2  go to state 31
+
+
+state 25
+
+   18 goal_def: OPEN_PAREN GOAL_TOK . @3 pre_GD CLOSE_PAREN
+
+    $default  reduce using rule 17 (@3)
+
+    @3  go to state 32
+
+
+state 26
+
+   54 metric_def: OPEN_PAREN METRIC_TOK . NAME ground_f_exp CLOSE_PAREN
+
+    NAME  shift, and go to state 33
+
+
+state 27
+
+   20 constraints_def: OPEN_PAREN CONSTRAINTS_TOK . @4 pref_con_GD CLOSE_PAREN
+
+    $default  reduce using rule 19 (@4)
+
+    @4  go to state 34
+
+
+state 28
+
+  106 typed_list_name: NAME . EITHER_TOK name_plus CLOSE_PAREN typed_list_name
+  107                | NAME . MINUS_TOK NAME typed_list_name
+  108                | NAME . typed_list_name
+
+    NAME        shift, and go to state 28
+    MINUS_TOK   shift, and go to state 35
+    EITHER_TOK  shift, and go to state 36
+
+    $default  reduce using rule 105 (typed_list_name)
+
+    typed_list_name  go to state 37
+
+
+state 29
+
+   14 objects_def: OPEN_PAREN OBJECTS_TOK typed_list_name . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 38
+
+
+state 30
+
+    6 base_domain_name: OPEN_PAREN BDOMAIN_TOK NAME . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 39
+
+
+state 31
+
+   16 init_def: OPEN_PAREN INIT_TOK @2 . init_el_plus CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 40
+
+    init_el_plus         go to state 41
+    init_el              go to state 42
+    literal_name         go to state 43
+    atomic_formula_name  go to state 44
+
+
+state 32
+
+   18 goal_def: OPEN_PAREN GOAL_TOK @3 . pre_GD CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 45
+
+    pre_GD                 go to state 46
+    pref_GD                go to state 47
+    adl_goal_description1  go to state 48
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 33
+
+   54 metric_def: OPEN_PAREN METRIC_TOK NAME . ground_f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 51
+    OPEN_PAREN  shift, and go to state 52
+
+    ground_f_exp  go to state 53
+
+
+state 34
+
+   20 constraints_def: OPEN_PAREN CONSTRAINTS_TOK @4 . pref_con_GD CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 54
+
+    pref_con_GD  go to state 55
+    con_GD1      go to state 56
+
+
+state 35
+
+  107 typed_list_name: NAME MINUS_TOK . NAME typed_list_name
+
+    NAME  shift, and go to state 57
+
+
+state 36
+
+  106 typed_list_name: NAME EITHER_TOK . name_plus CLOSE_PAREN typed_list_name
+
+    NAME  shift, and go to state 58
+
+    name_plus  go to state 59
+
+
+state 37
+
+  108 typed_list_name: NAME typed_list_name .
+
+    $default  reduce using rule 108 (typed_list_name)
+
+
+state 38
+
+   14 objects_def: OPEN_PAREN OBJECTS_TOK typed_list_name CLOSE_PAREN .
+
+    $default  reduce using rule 14 (objects_def)
+
+
+state 39
+
+    6 base_domain_name: OPEN_PAREN BDOMAIN_TOK NAME CLOSE_PAREN .
+
+    $default  reduce using rule 6 (base_domain_name)
+
+
+state 40
+
+   73 init_el: OPEN_PAREN . EQ_TOK OPEN_PAREN NAME name_star CLOSE_PAREN NUM CLOSE_PAREN
+   74        | OPEN_PAREN . EQ_TOK NAME NUM CLOSE_PAREN
+   75        | OPEN_PAREN . AT_TOK literal_name CLOSE_PAREN
+  114 literal_name: OPEN_PAREN . dis_NOT_TOK atomic_formula_name CLOSE_PAREN
+  116 atomic_formula_name: OPEN_PAREN . predicate name_star CLOSE_PAREN
+
+    dis_NOT_TOK  shift, and go to state 60
+    NAME         shift, and go to state 61
+    EQ_TOK       shift, and go to state 62
+    AT_TOK       shift, and go to state 63
+
+    predicate  go to state 64
+
+
+state 41
+
+   16 init_def: OPEN_PAREN INIT_TOK @2 init_el_plus . CLOSE_PAREN
+   71 init_el_plus: init_el_plus . init_el
+
+    OPEN_PAREN   shift, and go to state 40
+    CLOSE_PAREN  shift, and go to state 65
+
+    init_el              go to state 66
+    literal_name         go to state 43
+    atomic_formula_name  go to state 44
+
+
+state 42
+
+   70 init_el_plus: init_el .
+
+    $default  reduce using rule 70 (init_el_plus)
+
+
+state 43
+
+   72 init_el: literal_name .
+
+    $default  reduce using rule 72 (init_el)
+
+
+state 44
+
+  115 literal_name: atomic_formula_name .
+
+    $default  reduce using rule 115 (literal_name)
+
+
+state 45
+
+   21 pre_GD: OPEN_PAREN . CLOSE_PAREN
+   23       | OPEN_PAREN . dis_AND_TOK pre_GD_star CLOSE_PAREN
+   25       | OPEN_PAREN . Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @5 CLOSE_PAREN pre_GD CLOSE_PAREN
+   26 pref_GD: OPEN_PAREN . PREFERENCE_TOK NAME adl_goal_description CLOSE_PAREN
+   27        | OPEN_PAREN . PREFERENCE_TOK adl_goal_description CLOSE_PAREN
+   58 adl_goal_description1: OPEN_PAREN . LE_TOK f_exp f_exp CLOSE_PAREN
+   59                      | OPEN_PAREN . LEQ_TOK f_exp f_exp CLOSE_PAREN
+   60                      | OPEN_PAREN . EQ_TOK f_exp f_exp CLOSE_PAREN
+   61                      | OPEN_PAREN . GEQ_TOK f_exp f_exp CLOSE_PAREN
+   62                      | OPEN_PAREN . GE_TOK f_exp f_exp CLOSE_PAREN
+   64                      | OPEN_PAREN . dis_OR_TOK adl_goal_description_star CLOSE_PAREN
+   65                      | OPEN_PAREN . dis_NOT_TOK adl_goal_description CLOSE_PAREN
+   66                      | OPEN_PAREN . IMPLY_TOK adl_goal_description adl_goal_description CLOSE_PAREN
+   67                      | OPEN_PAREN . dis_EXISTS_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN adl_goal_description CLOSE_PAREN
+   95 literal_term: OPEN_PAREN . dis_NOT_TOK atomic_formula_term CLOSE_PAREN
+   97 atomic_formula_term: OPEN_PAREN . predicate term_star CLOSE_PAREN
+   98                    | OPEN_PAREN . EQ_TOK term_star CLOSE_PAREN
+
+    dis_AND_TOK         shift, and go to state 67
+    dis_NOT_TOK         shift, and go to state 68
+    NAME                shift, and go to state 61
+    LE_TOK              shift, and go to state 69
+    LEQ_TOK             shift, and go to state 70
+    EQ_TOK              shift, and go to state 71
+    GEQ_TOK             shift, and go to state 72
+    GE_TOK              shift, and go to state 73
+    Fdis_ORdis_ALL_TOK  shift, and go to state 74
+    IMPLY_TOK           shift, and go to state 75
+    dis_OR_TOK          shift, and go to state 76
+    dis_EXISTS_TOK      shift, and go to state 77
+    CLOSE_PAREN         shift, and go to state 78
+    PREFERENCE_TOK      shift, and go to state 79
+
+    predicate  go to state 80
+
+
+state 46
+
+   18 goal_def: OPEN_PAREN GOAL_TOK @3 pre_GD . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 81
+
+
+state 47
+
+   22 pre_GD: pref_GD .
+
+    $default  reduce using rule 22 (pre_GD)
+
+
+state 48
+
+   28 pref_GD: adl_goal_description1 .
+
+    $default  reduce using rule 28 (pref_GD)
+
+
+state 49
+
+   63 adl_goal_description1: literal_term .
+
+    $default  reduce using rule 63 (adl_goal_description1)
+
+
+state 50
+
+   96 literal_term: atomic_formula_term .
+
+    $default  reduce using rule 96 (literal_term)
+
+
+state 51
+
+   83 ground_f_exp: NUM .
+
+    $default  reduce using rule 83 (ground_f_exp)
+
+
+state 52
+
+   84 ground_f_exp: OPEN_PAREN . NAME name_star CLOSE_PAREN
+   85             | OPEN_PAREN . MINUS_TOK ground_f_exp CLOSE_PAREN
+   86             | OPEN_PAREN . AD_TOK ground_f_exp plus_ground_f_exp_plus CLOSE_PAREN
+   87             | OPEN_PAREN . MU_TOK ground_f_exp mul_ground_f_exp_plus CLOSE_PAREN
+   88             | OPEN_PAREN . MINUS_TOK ground_f_exp ground_f_exp CLOSE_PAREN
+   89             | OPEN_PAREN . DI_TOK ground_f_exp ground_f_exp CLOSE_PAREN
+   90             | OPEN_PAREN . IS_VIOLATED_TOK NAME CLOSE_PAREN
+
+    NAME             shift, and go to state 82
+    MINUS_TOK        shift, and go to state 83
+    AD_TOK           shift, and go to state 84
+    MU_TOK           shift, and go to state 85
+    DI_TOK           shift, and go to state 86
+    IS_VIOLATED_TOK  shift, and go to state 87
+
+
+state 53
+
+   54 metric_def: OPEN_PAREN METRIC_TOK NAME ground_f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 88
+
+
+state 54
+
+   31 pref_con_GD: OPEN_PAREN . dis_AND_TOK pref_con_GD_star CLOSE_PAREN
+   33            | OPEN_PAREN . Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @6 CLOSE_PAREN pref_con_GD CLOSE_PAREN
+   34            | OPEN_PAREN . PREFERENCE_TOK NAME con_GD CLOSE_PAREN
+   35            | OPEN_PAREN . PREFERENCE_TOK con_GD CLOSE_PAREN
+   42 con_GD1: OPEN_PAREN . AT_END_TOK adl_goal_description CLOSE_PAREN
+   43        | OPEN_PAREN . ALWAYS_TOK adl_goal_description CLOSE_PAREN
+   44        | OPEN_PAREN . SOMETIME_TOK adl_goal_description CLOSE_PAREN
+   45        | OPEN_PAREN . WITHIN_TOK NUM adl_goal_description CLOSE_PAREN
+   46        | OPEN_PAREN . AT_MOST_ONCE_TOK adl_goal_description CLOSE_PAREN
+   47        | OPEN_PAREN . SOMETIME_AFTER_TOK adl_goal_description adl_goal_description CLOSE_PAREN
+   48        | OPEN_PAREN . SOMETIME_BEFORE_TOK adl_goal_description adl_goal_description CLOSE_PAREN
+   49        | OPEN_PAREN . ALWAYS_WITHIN_TOK NUM adl_goal_description adl_goal_description CLOSE_PAREN
+   50        | OPEN_PAREN . HOLD_DURING_TOK NUM NUM adl_goal_description CLOSE_PAREN
+   51        | OPEN_PAREN . HOLD_AFTER_TOK NUM adl_goal_description CLOSE_PAREN
+
+    dis_AND_TOK          shift, and go to state 89
+    Fdis_ORdis_ALL_TOK   shift, and go to state 90
+    PREFERENCE_TOK       shift, and go to state 91
+    WITHIN_TOK           shift, and go to state 92
+    SOMETIME_TOK         shift, and go to state 93
+    ALWAYS_TOK           shift, and go to state 94
+    AT_MOST_ONCE_TOK     shift, and go to state 95
+    SOMETIME_AFTER_TOK   shift, and go to state 96
+    SOMETIME_BEFORE_TOK  shift, and go to state 97
+    ALWAYS_WITHIN_TOK    shift, and go to state 98
+    HOLD_DURING_TOK      shift, and go to state 99
+    HOLD_AFTER_TOK       shift, and go to state 100
+    AT_END_TOK           shift, and go to state 101
+
+
+state 55
+
+   20 constraints_def: OPEN_PAREN CONSTRAINTS_TOK @4 pref_con_GD . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 102
+
+
+state 56
+
+   36 pref_con_GD: con_GD1 .
+
+    $default  reduce using rule 36 (pref_con_GD)
+
+
+state 57
+
+  107 typed_list_name: NAME MINUS_TOK NAME . typed_list_name
+
+    NAME  shift, and go to state 28
+
+    $default  reduce using rule 105 (typed_list_name)
+
+    typed_list_name  go to state 103
+
+
+state 58
+
+  103 name_plus: NAME .
+  104          | NAME . name_plus
+
+    NAME  shift, and go to state 58
+
+    $default  reduce using rule 103 (name_plus)
+
+    name_plus  go to state 104
+
+
+state 59
+
+  106 typed_list_name: NAME EITHER_TOK name_plus . CLOSE_PAREN typed_list_name
+
+    CLOSE_PAREN  shift, and go to state 105
+
+
+state 60
+
+  114 literal_name: OPEN_PAREN dis_NOT_TOK . atomic_formula_name CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 106
+
+    atomic_formula_name  go to state 107
+
+
+state 61
+
+  113 predicate: NAME .
+
+    $default  reduce using rule 113 (predicate)
+
+
+state 62
+
+   73 init_el: OPEN_PAREN EQ_TOK . OPEN_PAREN NAME name_star CLOSE_PAREN NUM CLOSE_PAREN
+   74        | OPEN_PAREN EQ_TOK . NAME NUM CLOSE_PAREN
+
+    NAME        shift, and go to state 108
+    OPEN_PAREN  shift, and go to state 109
+
+
+state 63
+
+   75 init_el: OPEN_PAREN AT_TOK . literal_name CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 110
+
+    literal_name         go to state 111
+    atomic_formula_name  go to state 44
+
+
+state 64
+
+  116 atomic_formula_name: OPEN_PAREN predicate . name_star CLOSE_PAREN
+
+    NAME  shift, and go to state 112
+
+    $default  reduce using rule 117 (name_star)
+
+    name_star  go to state 113
+
+
+state 65
+
+   16 init_def: OPEN_PAREN INIT_TOK @2 init_el_plus CLOSE_PAREN .
+
+    $default  reduce using rule 16 (init_def)
+
+
+state 66
+
+   71 init_el_plus: init_el_plus init_el .
+
+    $default  reduce using rule 71 (init_el_plus)
+
+
+state 67
+
+   23 pre_GD: OPEN_PAREN dis_AND_TOK . pre_GD_star CLOSE_PAREN
+
+    $default  reduce using rule 29 (pre_GD_star)
+
+    pre_GD_star  go to state 114
+
+
+state 68
+
+   65 adl_goal_description1: OPEN_PAREN dis_NOT_TOK . adl_goal_description CLOSE_PAREN
+   95 literal_term: OPEN_PAREN dis_NOT_TOK . atomic_formula_term CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 116
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 118
+
+
+state 69
+
+   58 adl_goal_description1: OPEN_PAREN LE_TOK . f_exp f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 121
+
+
+state 70
+
+   59 adl_goal_description1: OPEN_PAREN LEQ_TOK . f_exp f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 122
+
+
+state 71
+
+   60 adl_goal_description1: OPEN_PAREN EQ_TOK . f_exp f_exp CLOSE_PAREN
+   98 atomic_formula_term: OPEN_PAREN EQ_TOK . term_star CLOSE_PAREN
+
+    NAME        shift, and go to state 123
+    VARIABLE    shift, and go to state 124
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    $default  reduce using rule 99 (term_star)
+
+    f_exp      go to state 125
+    term_star  go to state 126
+    term       go to state 127
+
+
+state 72
+
+   61 adl_goal_description1: OPEN_PAREN GEQ_TOK . f_exp f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 128
+
+
+state 73
+
+   62 adl_goal_description1: OPEN_PAREN GE_TOK . f_exp f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 129
+
+
+state 74
+
+   25 pre_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK . OPEN_PAREN typed_list_variable @5 CLOSE_PAREN pre_GD CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 130
+
+
+state 75
+
+   66 adl_goal_description1: OPEN_PAREN IMPLY_TOK . adl_goal_description adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 131
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 76
+
+   64 adl_goal_description1: OPEN_PAREN dis_OR_TOK . adl_goal_description_star CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    $default  reduce using rule 68 (adl_goal_description_star)
+
+    adl_goal_description       go to state 132
+    adl_goal_description1      go to state 117
+    adl_goal_description_star  go to state 133
+    literal_term               go to state 49
+    atomic_formula_term        go to state 50
+
+
+state 77
+
+   67 adl_goal_description1: OPEN_PAREN dis_EXISTS_TOK . OPEN_PAREN typed_list_variable CLOSE_PAREN adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 134
+
+
+state 78
+
+   21 pre_GD: OPEN_PAREN CLOSE_PAREN .
+
+    $default  reduce using rule 21 (pre_GD)
+
+
+state 79
+
+   26 pref_GD: OPEN_PAREN PREFERENCE_TOK . NAME adl_goal_description CLOSE_PAREN
+   27        | OPEN_PAREN PREFERENCE_TOK . adl_goal_description CLOSE_PAREN
+
+    NAME        shift, and go to state 135
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 136
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 80
+
+   97 atomic_formula_term: OPEN_PAREN predicate . term_star CLOSE_PAREN
+
+    NAME      shift, and go to state 123
+    VARIABLE  shift, and go to state 124
+
+    $default  reduce using rule 99 (term_star)
+
+    term_star  go to state 137
+    term       go to state 127
+
+
+state 81
+
+   18 goal_def: OPEN_PAREN GOAL_TOK @3 pre_GD CLOSE_PAREN .
+
+    $default  reduce using rule 18 (goal_def)
+
+
+state 82
+
+   84 ground_f_exp: OPEN_PAREN NAME . name_star CLOSE_PAREN
+
+    NAME  shift, and go to state 112
+
+    $default  reduce using rule 117 (name_star)
+
+    name_star  go to state 138
+
+
+state 83
+
+   85 ground_f_exp: OPEN_PAREN MINUS_TOK . ground_f_exp CLOSE_PAREN
+   88             | OPEN_PAREN MINUS_TOK . ground_f_exp ground_f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 51
+    OPEN_PAREN  shift, and go to state 52
+
+    ground_f_exp  go to state 139
+
+
+state 84
+
+   86 ground_f_exp: OPEN_PAREN AD_TOK . ground_f_exp plus_ground_f_exp_plus CLOSE_PAREN
+
+    NUM         shift, and go to state 51
+    OPEN_PAREN  shift, and go to state 52
+
+    ground_f_exp  go to state 140
+
+
+state 85
+
+   87 ground_f_exp: OPEN_PAREN MU_TOK . ground_f_exp mul_ground_f_exp_plus CLOSE_PAREN
+
+    NUM         shift, and go to state 51
+    OPEN_PAREN  shift, and go to state 52
+
+    ground_f_exp  go to state 141
+
+
+state 86
+
+   89 ground_f_exp: OPEN_PAREN DI_TOK . ground_f_exp ground_f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 51
+    OPEN_PAREN  shift, and go to state 52
+
+    ground_f_exp  go to state 142
+
+
+state 87
+
+   90 ground_f_exp: OPEN_PAREN IS_VIOLATED_TOK . NAME CLOSE_PAREN
+
+    NAME  shift, and go to state 143
+
+
+state 88
+
+   54 metric_def: OPEN_PAREN METRIC_TOK NAME ground_f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 54 (metric_def)
+
+
+state 89
+
+   31 pref_con_GD: OPEN_PAREN dis_AND_TOK . pref_con_GD_star CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 54
+
+    $default  reduce using rule 37 (pref_con_GD_star)
+
+    pref_con_GD       go to state 144
+    pref_con_GD_star  go to state 145
+    con_GD1           go to state 56
+
+
+state 90
+
+   33 pref_con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK . OPEN_PAREN typed_list_variable @6 CLOSE_PAREN pref_con_GD CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 146
+
+
+state 91
+
+   34 pref_con_GD: OPEN_PAREN PREFERENCE_TOK . NAME con_GD CLOSE_PAREN
+   35            | OPEN_PAREN PREFERENCE_TOK . con_GD CLOSE_PAREN
+
+    NAME        shift, and go to state 147
+    OPEN_PAREN  shift, and go to state 148
+
+    con_GD   go to state 149
+    con_GD1  go to state 150
+
+
+state 92
+
+   45 con_GD1: OPEN_PAREN WITHIN_TOK . NUM adl_goal_description CLOSE_PAREN
+
+    NUM  shift, and go to state 151
+
+
+state 93
+
+   44 con_GD1: OPEN_PAREN SOMETIME_TOK . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 152
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 94
+
+   43 con_GD1: OPEN_PAREN ALWAYS_TOK . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 153
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 95
+
+   46 con_GD1: OPEN_PAREN AT_MOST_ONCE_TOK . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 154
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 96
+
+   47 con_GD1: OPEN_PAREN SOMETIME_AFTER_TOK . adl_goal_description adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 155
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 97
+
+   48 con_GD1: OPEN_PAREN SOMETIME_BEFORE_TOK . adl_goal_description adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 156
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 98
+
+   49 con_GD1: OPEN_PAREN ALWAYS_WITHIN_TOK . NUM adl_goal_description adl_goal_description CLOSE_PAREN
+
+    NUM  shift, and go to state 157
+
+
+state 99
+
+   50 con_GD1: OPEN_PAREN HOLD_DURING_TOK . NUM NUM adl_goal_description CLOSE_PAREN
+
+    NUM  shift, and go to state 158
+
+
+state 100
+
+   51 con_GD1: OPEN_PAREN HOLD_AFTER_TOK . NUM adl_goal_description CLOSE_PAREN
+
+    NUM  shift, and go to state 159
+
+
+state 101
+
+   42 con_GD1: OPEN_PAREN AT_END_TOK . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 160
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 102
+
+   20 constraints_def: OPEN_PAREN CONSTRAINTS_TOK @4 pref_con_GD CLOSE_PAREN .
+
+    $default  reduce using rule 20 (constraints_def)
+
+
+state 103
+
+  107 typed_list_name: NAME MINUS_TOK NAME typed_list_name .
+
+    $default  reduce using rule 107 (typed_list_name)
+
+
+state 104
+
+  104 name_plus: NAME name_plus .
+
+    $default  reduce using rule 104 (name_plus)
+
+
+state 105
+
+  106 typed_list_name: NAME EITHER_TOK name_plus CLOSE_PAREN . typed_list_name
+
+    NAME  shift, and go to state 28
+
+    $default  reduce using rule 105 (typed_list_name)
+
+    typed_list_name  go to state 161
+
+
+state 106
+
+  116 atomic_formula_name: OPEN_PAREN . predicate name_star CLOSE_PAREN
+
+    NAME  shift, and go to state 61
+
+    predicate  go to state 64
+
+
+state 107
+
+  114 literal_name: OPEN_PAREN dis_NOT_TOK atomic_formula_name . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 162
+
+
+state 108
+
+   74 init_el: OPEN_PAREN EQ_TOK NAME . NUM CLOSE_PAREN
+
+    NUM  shift, and go to state 163
+
+
+state 109
+
+   73 init_el: OPEN_PAREN EQ_TOK OPEN_PAREN . NAME name_star CLOSE_PAREN NUM CLOSE_PAREN
+
+    NAME  shift, and go to state 164
+
+
+state 110
+
+  114 literal_name: OPEN_PAREN . dis_NOT_TOK atomic_formula_name CLOSE_PAREN
+  116 atomic_formula_name: OPEN_PAREN . predicate name_star CLOSE_PAREN
+
+    dis_NOT_TOK  shift, and go to state 60
+    NAME         shift, and go to state 61
+
+    predicate  go to state 64
+
+
+state 111
+
+   75 init_el: OPEN_PAREN AT_TOK literal_name . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 165
+
+
+state 112
+
+  118 name_star: NAME . name_star
+
+    NAME  shift, and go to state 112
+
+    $default  reduce using rule 117 (name_star)
+
+    name_star  go to state 166
+
+
+state 113
+
+  116 atomic_formula_name: OPEN_PAREN predicate name_star . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 167
+
+
+state 114
+
+   23 pre_GD: OPEN_PAREN dis_AND_TOK pre_GD_star . CLOSE_PAREN
+   30 pre_GD_star: pre_GD_star . pre_GD
+
+    OPEN_PAREN   shift, and go to state 45
+    CLOSE_PAREN  shift, and go to state 168
+
+    pre_GD                 go to state 169
+    pref_GD                go to state 47
+    adl_goal_description1  go to state 48
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 115
+
+   56 adl_goal_description: OPEN_PAREN . dis_AND_TOK adl_goal_description_star CLOSE_PAREN
+   57                     | OPEN_PAREN . Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN adl_goal_description CLOSE_PAREN
+   58 adl_goal_description1: OPEN_PAREN . LE_TOK f_exp f_exp CLOSE_PAREN
+   59                      | OPEN_PAREN . LEQ_TOK f_exp f_exp CLOSE_PAREN
+   60                      | OPEN_PAREN . EQ_TOK f_exp f_exp CLOSE_PAREN
+   61                      | OPEN_PAREN . GEQ_TOK f_exp f_exp CLOSE_PAREN
+   62                      | OPEN_PAREN . GE_TOK f_exp f_exp CLOSE_PAREN
+   64                      | OPEN_PAREN . dis_OR_TOK adl_goal_description_star CLOSE_PAREN
+   65                      | OPEN_PAREN . dis_NOT_TOK adl_goal_description CLOSE_PAREN
+   66                      | OPEN_PAREN . IMPLY_TOK adl_goal_description adl_goal_description CLOSE_PAREN
+   67                      | OPEN_PAREN . dis_EXISTS_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN adl_goal_description CLOSE_PAREN
+   95 literal_term: OPEN_PAREN . dis_NOT_TOK atomic_formula_term CLOSE_PAREN
+   97 atomic_formula_term: OPEN_PAREN . predicate term_star CLOSE_PAREN
+   98                    | OPEN_PAREN . EQ_TOK term_star CLOSE_PAREN
+
+    dis_AND_TOK         shift, and go to state 170
+    dis_NOT_TOK         shift, and go to state 68
+    NAME                shift, and go to state 61
+    LE_TOK              shift, and go to state 69
+    LEQ_TOK             shift, and go to state 70
+    EQ_TOK              shift, and go to state 71
+    GEQ_TOK             shift, and go to state 72
+    GE_TOK              shift, and go to state 73
+    Fdis_ORdis_ALL_TOK  shift, and go to state 171
+    IMPLY_TOK           shift, and go to state 75
+    dis_OR_TOK          shift, and go to state 76
+    dis_EXISTS_TOK      shift, and go to state 77
+
+    predicate  go to state 80
+
+
+state 116
+
+   65 adl_goal_description1: OPEN_PAREN dis_NOT_TOK adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 172
+
+
+state 117
+
+   55 adl_goal_description: adl_goal_description1 .
+
+    $default  reduce using rule 55 (adl_goal_description)
+
+
+state 118
+
+   95 literal_term: OPEN_PAREN dis_NOT_TOK atomic_formula_term . CLOSE_PAREN
+   96             | atomic_formula_term .
+
+    CLOSE_PAREN  shift, and go to state 173
+
+    CLOSE_PAREN  [reduce using rule 96 (literal_term)]
+
+
+state 119
+
+   76 f_exp: NUM .
+
+    $default  reduce using rule 76 (f_exp)
+
+
+state 120
+
+   77 f_exp: OPEN_PAREN . NAME term_star CLOSE_PAREN
+   78      | OPEN_PAREN . MINUS_TOK f_exp CLOSE_PAREN
+   79      | OPEN_PAREN . AD_TOK f_exp f_exp CLOSE_PAREN
+   80      | OPEN_PAREN . MINUS_TOK f_exp f_exp CLOSE_PAREN
+   81      | OPEN_PAREN . MU_TOK f_exp f_exp CLOSE_PAREN
+   82      | OPEN_PAREN . DI_TOK f_exp f_exp CLOSE_PAREN
+
+    NAME       shift, and go to state 174
+    MINUS_TOK  shift, and go to state 175
+    AD_TOK     shift, and go to state 176
+    MU_TOK     shift, and go to state 177
+    DI_TOK     shift, and go to state 178
+
+
+state 121
+
+   58 adl_goal_description1: OPEN_PAREN LE_TOK f_exp . f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 179
+
+
+state 122
+
+   59 adl_goal_description1: OPEN_PAREN LEQ_TOK f_exp . f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 180
+
+
+state 123
+
+  101 term: NAME .
+
+    $default  reduce using rule 101 (term)
+
+
+state 124
+
+  102 term: VARIABLE .
+
+    $default  reduce using rule 102 (term)
+
+
+state 125
+
+   60 adl_goal_description1: OPEN_PAREN EQ_TOK f_exp . f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 181
+
+
+state 126
+
+   98 atomic_formula_term: OPEN_PAREN EQ_TOK term_star . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 182
+
+
+state 127
+
+  100 term_star: term . term_star
+
+    NAME      shift, and go to state 123
+    VARIABLE  shift, and go to state 124
+
+    $default  reduce using rule 99 (term_star)
+
+    term_star  go to state 183
+    term       go to state 127
+
+
+state 128
+
+   61 adl_goal_description1: OPEN_PAREN GEQ_TOK f_exp . f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 184
+
+
+state 129
+
+   62 adl_goal_description1: OPEN_PAREN GE_TOK f_exp . f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 185
+
+
+state 130
+
+   25 pre_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN . typed_list_variable @5 CLOSE_PAREN pre_GD CLOSE_PAREN
+
+    VARIABLE  shift, and go to state 186
+
+    $default  reduce using rule 109 (typed_list_variable)
+
+    typed_list_variable  go to state 187
+
+
+state 131
+
+   66 adl_goal_description1: OPEN_PAREN IMPLY_TOK adl_goal_description . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 188
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 132
+
+   69 adl_goal_description_star: adl_goal_description . adl_goal_description_star
+
+    OPEN_PAREN  shift, and go to state 115
+
+    $default  reduce using rule 68 (adl_goal_description_star)
+
+    adl_goal_description       go to state 132
+    adl_goal_description1      go to state 117
+    adl_goal_description_star  go to state 189
+    literal_term               go to state 49
+    atomic_formula_term        go to state 50
+
+
+state 133
+
+   64 adl_goal_description1: OPEN_PAREN dis_OR_TOK adl_goal_description_star . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 190
+
+
+state 134
+
+   67 adl_goal_description1: OPEN_PAREN dis_EXISTS_TOK OPEN_PAREN . typed_list_variable CLOSE_PAREN adl_goal_description CLOSE_PAREN
+
+    VARIABLE  shift, and go to state 186
+
+    $default  reduce using rule 109 (typed_list_variable)
+
+    typed_list_variable  go to state 191
+
+
+state 135
+
+   26 pref_GD: OPEN_PAREN PREFERENCE_TOK NAME . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 192
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 136
+
+   27 pref_GD: OPEN_PAREN PREFERENCE_TOK adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 193
+
+
+state 137
+
+   97 atomic_formula_term: OPEN_PAREN predicate term_star . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 194
+
+
+state 138
+
+   84 ground_f_exp: OPEN_PAREN NAME name_star . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 195
+
+
+state 139
+
+   85 ground_f_exp: OPEN_PAREN MINUS_TOK ground_f_exp . CLOSE_PAREN
+   88             | OPEN_PAREN MINUS_TOK ground_f_exp . ground_f_exp CLOSE_PAREN
+
+    NUM          shift, and go to state 51
+    OPEN_PAREN   shift, and go to state 52
+    CLOSE_PAREN  shift, and go to state 196
+
+    ground_f_exp  go to state 197
+
+
+state 140
+
+   86 ground_f_exp: OPEN_PAREN AD_TOK ground_f_exp . plus_ground_f_exp_plus CLOSE_PAREN
+
+    NUM         shift, and go to state 51
+    OPEN_PAREN  shift, and go to state 52
+
+    ground_f_exp            go to state 198
+    plus_ground_f_exp_plus  go to state 199
+
+
+state 141
+
+   87 ground_f_exp: OPEN_PAREN MU_TOK ground_f_exp . mul_ground_f_exp_plus CLOSE_PAREN
+
+    NUM         shift, and go to state 51
+    OPEN_PAREN  shift, and go to state 52
+
+    ground_f_exp           go to state 200
+    mul_ground_f_exp_plus  go to state 201
+
+
+state 142
+
+   89 ground_f_exp: OPEN_PAREN DI_TOK ground_f_exp . ground_f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 51
+    OPEN_PAREN  shift, and go to state 52
+
+    ground_f_exp  go to state 202
+
+
+state 143
+
+   90 ground_f_exp: OPEN_PAREN IS_VIOLATED_TOK NAME . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 203
+
+
+state 144
+
+   38 pref_con_GD_star: pref_con_GD . pref_con_GD_star
+
+    OPEN_PAREN  shift, and go to state 54
+
+    $default  reduce using rule 37 (pref_con_GD_star)
+
+    pref_con_GD       go to state 144
+    pref_con_GD_star  go to state 204
+    con_GD1           go to state 56
+
+
+state 145
+
+   31 pref_con_GD: OPEN_PAREN dis_AND_TOK pref_con_GD_star . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 205
+
+
+state 146
+
+   33 pref_con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN . typed_list_variable @6 CLOSE_PAREN pref_con_GD CLOSE_PAREN
+
+    VARIABLE  shift, and go to state 186
+
+    $default  reduce using rule 109 (typed_list_variable)
+
+    typed_list_variable  go to state 206
+
+
+state 147
+
+   34 pref_con_GD: OPEN_PAREN PREFERENCE_TOK NAME . con_GD CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 148
+
+    con_GD   go to state 207
+    con_GD1  go to state 150
+
+
+state 148
+
+   40 con_GD: OPEN_PAREN . dis_AND_TOK con_GD_star CLOSE_PAREN
+   41       | OPEN_PAREN . Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN con_GD1 CLOSE_PAREN
+   42 con_GD1: OPEN_PAREN . AT_END_TOK adl_goal_description CLOSE_PAREN
+   43        | OPEN_PAREN . ALWAYS_TOK adl_goal_description CLOSE_PAREN
+   44        | OPEN_PAREN . SOMETIME_TOK adl_goal_description CLOSE_PAREN
+   45        | OPEN_PAREN . WITHIN_TOK NUM adl_goal_description CLOSE_PAREN
+   46        | OPEN_PAREN . AT_MOST_ONCE_TOK adl_goal_description CLOSE_PAREN
+   47        | OPEN_PAREN . SOMETIME_AFTER_TOK adl_goal_description adl_goal_description CLOSE_PAREN
+   48        | OPEN_PAREN . SOMETIME_BEFORE_TOK adl_goal_description adl_goal_description CLOSE_PAREN
+   49        | OPEN_PAREN . ALWAYS_WITHIN_TOK NUM adl_goal_description adl_goal_description CLOSE_PAREN
+   50        | OPEN_PAREN . HOLD_DURING_TOK NUM NUM adl_goal_description CLOSE_PAREN
+   51        | OPEN_PAREN . HOLD_AFTER_TOK NUM adl_goal_description CLOSE_PAREN
+
+    dis_AND_TOK          shift, and go to state 208
+    Fdis_ORdis_ALL_TOK   shift, and go to state 209
+    WITHIN_TOK           shift, and go to state 92
+    SOMETIME_TOK         shift, and go to state 93
+    ALWAYS_TOK           shift, and go to state 94
+    AT_MOST_ONCE_TOK     shift, and go to state 95
+    SOMETIME_AFTER_TOK   shift, and go to state 96
+    SOMETIME_BEFORE_TOK  shift, and go to state 97
+    ALWAYS_WITHIN_TOK    shift, and go to state 98
+    HOLD_DURING_TOK      shift, and go to state 99
+    HOLD_AFTER_TOK       shift, and go to state 100
+    AT_END_TOK           shift, and go to state 101
+
+
+state 149
+
+   35 pref_con_GD: OPEN_PAREN PREFERENCE_TOK con_GD . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 210
+
+
+state 150
+
+   39 con_GD: con_GD1 .
+
+    $default  reduce using rule 39 (con_GD)
+
+
+state 151
+
+   45 con_GD1: OPEN_PAREN WITHIN_TOK NUM . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 211
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 152
+
+   44 con_GD1: OPEN_PAREN SOMETIME_TOK adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 212
+
+
+state 153
+
+   43 con_GD1: OPEN_PAREN ALWAYS_TOK adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 213
+
+
+state 154
+
+   46 con_GD1: OPEN_PAREN AT_MOST_ONCE_TOK adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 214
+
+
+state 155
+
+   47 con_GD1: OPEN_PAREN SOMETIME_AFTER_TOK adl_goal_description . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 215
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 156
+
+   48 con_GD1: OPEN_PAREN SOMETIME_BEFORE_TOK adl_goal_description . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 216
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 157
+
+   49 con_GD1: OPEN_PAREN ALWAYS_WITHIN_TOK NUM . adl_goal_description adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 217
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 158
+
+   50 con_GD1: OPEN_PAREN HOLD_DURING_TOK NUM . NUM adl_goal_description CLOSE_PAREN
+
+    NUM  shift, and go to state 218
+
+
+state 159
+
+   51 con_GD1: OPEN_PAREN HOLD_AFTER_TOK NUM . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 219
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 160
+
+   42 con_GD1: OPEN_PAREN AT_END_TOK adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 220
+
+
+state 161
+
+  106 typed_list_name: NAME EITHER_TOK name_plus CLOSE_PAREN typed_list_name .
+
+    $default  reduce using rule 106 (typed_list_name)
+
+
+state 162
+
+  114 literal_name: OPEN_PAREN dis_NOT_TOK atomic_formula_name CLOSE_PAREN .
+
+    $default  reduce using rule 114 (literal_name)
+
+
+state 163
+
+   74 init_el: OPEN_PAREN EQ_TOK NAME NUM . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 221
+
+
+state 164
+
+   73 init_el: OPEN_PAREN EQ_TOK OPEN_PAREN NAME . name_star CLOSE_PAREN NUM CLOSE_PAREN
+
+    NAME  shift, and go to state 112
+
+    $default  reduce using rule 117 (name_star)
+
+    name_star  go to state 222
+
+
+state 165
+
+   75 init_el: OPEN_PAREN AT_TOK literal_name CLOSE_PAREN .
+
+    $default  reduce using rule 75 (init_el)
+
+
+state 166
+
+  118 name_star: NAME name_star .
+
+    $default  reduce using rule 118 (name_star)
+
+
+state 167
+
+  116 atomic_formula_name: OPEN_PAREN predicate name_star CLOSE_PAREN .
+
+    $default  reduce using rule 116 (atomic_formula_name)
+
+
+state 168
+
+   23 pre_GD: OPEN_PAREN dis_AND_TOK pre_GD_star CLOSE_PAREN .
+
+    $default  reduce using rule 23 (pre_GD)
+
+
+state 169
+
+   30 pre_GD_star: pre_GD_star pre_GD .
+
+    $default  reduce using rule 30 (pre_GD_star)
+
+
+state 170
+
+   56 adl_goal_description: OPEN_PAREN dis_AND_TOK . adl_goal_description_star CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    $default  reduce using rule 68 (adl_goal_description_star)
+
+    adl_goal_description       go to state 132
+    adl_goal_description1      go to state 117
+    adl_goal_description_star  go to state 223
+    literal_term               go to state 49
+    atomic_formula_term        go to state 50
+
+
+state 171
+
+   57 adl_goal_description: OPEN_PAREN Fdis_ORdis_ALL_TOK . OPEN_PAREN typed_list_variable CLOSE_PAREN adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 224
+
+
+state 172
+
+   65 adl_goal_description1: OPEN_PAREN dis_NOT_TOK adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 65 (adl_goal_description1)
+
+
+state 173
+
+   95 literal_term: OPEN_PAREN dis_NOT_TOK atomic_formula_term CLOSE_PAREN .
+
+    $default  reduce using rule 95 (literal_term)
+
+
+state 174
+
+   77 f_exp: OPEN_PAREN NAME . term_star CLOSE_PAREN
+
+    NAME      shift, and go to state 123
+    VARIABLE  shift, and go to state 124
+
+    $default  reduce using rule 99 (term_star)
+
+    term_star  go to state 225
+    term       go to state 127
+
+
+state 175
+
+   78 f_exp: OPEN_PAREN MINUS_TOK . f_exp CLOSE_PAREN
+   80      | OPEN_PAREN MINUS_TOK . f_exp f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 226
+
+
+state 176
+
+   79 f_exp: OPEN_PAREN AD_TOK . f_exp f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 227
+
+
+state 177
+
+   81 f_exp: OPEN_PAREN MU_TOK . f_exp f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 228
+
+
+state 178
+
+   82 f_exp: OPEN_PAREN DI_TOK . f_exp f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 229
+
+
+state 179
+
+   58 adl_goal_description1: OPEN_PAREN LE_TOK f_exp f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 230
+
+
+state 180
+
+   59 adl_goal_description1: OPEN_PAREN LEQ_TOK f_exp f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 231
+
+
+state 181
+
+   60 adl_goal_description1: OPEN_PAREN EQ_TOK f_exp f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 232
+
+
+state 182
+
+   98 atomic_formula_term: OPEN_PAREN EQ_TOK term_star CLOSE_PAREN .
+
+    $default  reduce using rule 98 (atomic_formula_term)
+
+
+state 183
+
+  100 term_star: term term_star .
+
+    $default  reduce using rule 100 (term_star)
+
+
+state 184
+
+   61 adl_goal_description1: OPEN_PAREN GEQ_TOK f_exp f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 233
+
+
+state 185
+
+   62 adl_goal_description1: OPEN_PAREN GE_TOK f_exp f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 234
+
+
+state 186
+
+  110 typed_list_variable: VARIABLE . EITHER_TOK name_plus CLOSE_PAREN typed_list_variable
+  111                    | VARIABLE . MINUS_TOK NAME typed_list_variable
+  112                    | VARIABLE . typed_list_variable
+
+    VARIABLE    shift, and go to state 186
+    MINUS_TOK   shift, and go to state 235
+    EITHER_TOK  shift, and go to state 236
+
+    $default  reduce using rule 109 (typed_list_variable)
+
+    typed_list_variable  go to state 237
+
+
+state 187
+
+   25 pre_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable . @5 CLOSE_PAREN pre_GD CLOSE_PAREN
+
+    $default  reduce using rule 24 (@5)
+
+    @5  go to state 238
+
+
+state 188
+
+   66 adl_goal_description1: OPEN_PAREN IMPLY_TOK adl_goal_description adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 239
+
+
+state 189
+
+   69 adl_goal_description_star: adl_goal_description adl_goal_description_star .
+
+    $default  reduce using rule 69 (adl_goal_description_star)
+
+
+state 190
+
+   64 adl_goal_description1: OPEN_PAREN dis_OR_TOK adl_goal_description_star CLOSE_PAREN .
+
+    $default  reduce using rule 64 (adl_goal_description1)
+
+
+state 191
+
+   67 adl_goal_description1: OPEN_PAREN dis_EXISTS_TOK OPEN_PAREN typed_list_variable . CLOSE_PAREN adl_goal_description CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 240
+
+
+state 192
+
+   26 pref_GD: OPEN_PAREN PREFERENCE_TOK NAME adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 241
+
+
+state 193
+
+   27 pref_GD: OPEN_PAREN PREFERENCE_TOK adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 27 (pref_GD)
+
+
+state 194
+
+   97 atomic_formula_term: OPEN_PAREN predicate term_star CLOSE_PAREN .
+
+    $default  reduce using rule 97 (atomic_formula_term)
+
+
+state 195
+
+   84 ground_f_exp: OPEN_PAREN NAME name_star CLOSE_PAREN .
+
+    $default  reduce using rule 84 (ground_f_exp)
+
+
+state 196
+
+   85 ground_f_exp: OPEN_PAREN MINUS_TOK ground_f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 85 (ground_f_exp)
+
+
+state 197
+
+   88 ground_f_exp: OPEN_PAREN MINUS_TOK ground_f_exp ground_f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 242
+
+
+state 198
+
+   91 plus_ground_f_exp_plus: ground_f_exp .
+
+    $default  reduce using rule 91 (plus_ground_f_exp_plus)
+
+
+state 199
+
+   86 ground_f_exp: OPEN_PAREN AD_TOK ground_f_exp plus_ground_f_exp_plus . CLOSE_PAREN
+   92 plus_ground_f_exp_plus: plus_ground_f_exp_plus . ground_f_exp
+
+    NUM          shift, and go to state 51
+    OPEN_PAREN   shift, and go to state 52
+    CLOSE_PAREN  shift, and go to state 243
+
+    ground_f_exp  go to state 244
+
+
+state 200
+
+   93 mul_ground_f_exp_plus: ground_f_exp .
+
+    $default  reduce using rule 93 (mul_ground_f_exp_plus)
+
+
+state 201
+
+   87 ground_f_exp: OPEN_PAREN MU_TOK ground_f_exp mul_ground_f_exp_plus . CLOSE_PAREN
+   94 mul_ground_f_exp_plus: mul_ground_f_exp_plus . ground_f_exp
+
+    NUM          shift, and go to state 51
+    OPEN_PAREN   shift, and go to state 52
+    CLOSE_PAREN  shift, and go to state 245
+
+    ground_f_exp  go to state 246
+
+
+state 202
+
+   89 ground_f_exp: OPEN_PAREN DI_TOK ground_f_exp ground_f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 247
+
+
+state 203
+
+   90 ground_f_exp: OPEN_PAREN IS_VIOLATED_TOK NAME CLOSE_PAREN .
+
+    $default  reduce using rule 90 (ground_f_exp)
+
+
+state 204
+
+   38 pref_con_GD_star: pref_con_GD pref_con_GD_star .
+
+    $default  reduce using rule 38 (pref_con_GD_star)
+
+
+state 205
+
+   31 pref_con_GD: OPEN_PAREN dis_AND_TOK pref_con_GD_star CLOSE_PAREN .
+
+    $default  reduce using rule 31 (pref_con_GD)
+
+
+state 206
+
+   33 pref_con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable . @6 CLOSE_PAREN pref_con_GD CLOSE_PAREN
+
+    $default  reduce using rule 32 (@6)
+
+    @6  go to state 248
+
+
+state 207
+
+   34 pref_con_GD: OPEN_PAREN PREFERENCE_TOK NAME con_GD . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 249
+
+
+state 208
+
+   40 con_GD: OPEN_PAREN dis_AND_TOK . con_GD_star CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 250
+
+    $default  reduce using rule 52 (con_GD_star)
+
+    con_GD1      go to state 251
+    con_GD_star  go to state 252
+
+
+state 209
+
+   41 con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK . OPEN_PAREN typed_list_variable CLOSE_PAREN con_GD1 CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 253
+
+
+state 210
+
+   35 pref_con_GD: OPEN_PAREN PREFERENCE_TOK con_GD CLOSE_PAREN .
+
+    $default  reduce using rule 35 (pref_con_GD)
+
+
+state 211
+
+   45 con_GD1: OPEN_PAREN WITHIN_TOK NUM adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 254
+
+
+state 212
+
+   44 con_GD1: OPEN_PAREN SOMETIME_TOK adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 44 (con_GD1)
+
+
+state 213
+
+   43 con_GD1: OPEN_PAREN ALWAYS_TOK adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 43 (con_GD1)
+
+
+state 214
+
+   46 con_GD1: OPEN_PAREN AT_MOST_ONCE_TOK adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 46 (con_GD1)
+
+
+state 215
+
+   47 con_GD1: OPEN_PAREN SOMETIME_AFTER_TOK adl_goal_description adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 255
+
+
+state 216
+
+   48 con_GD1: OPEN_PAREN SOMETIME_BEFORE_TOK adl_goal_description adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 256
+
+
+state 217
+
+   49 con_GD1: OPEN_PAREN ALWAYS_WITHIN_TOK NUM adl_goal_description . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 257
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 218
+
+   50 con_GD1: OPEN_PAREN HOLD_DURING_TOK NUM NUM . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 258
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 219
+
+   51 con_GD1: OPEN_PAREN HOLD_AFTER_TOK NUM adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 259
+
+
+state 220
+
+   42 con_GD1: OPEN_PAREN AT_END_TOK adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 42 (con_GD1)
+
+
+state 221
+
+   74 init_el: OPEN_PAREN EQ_TOK NAME NUM CLOSE_PAREN .
+
+    $default  reduce using rule 74 (init_el)
+
+
+state 222
+
+   73 init_el: OPEN_PAREN EQ_TOK OPEN_PAREN NAME name_star . CLOSE_PAREN NUM CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 260
+
+
+state 223
+
+   56 adl_goal_description: OPEN_PAREN dis_AND_TOK adl_goal_description_star . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 261
+
+
+state 224
+
+   57 adl_goal_description: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN . typed_list_variable CLOSE_PAREN adl_goal_description CLOSE_PAREN
+
+    VARIABLE  shift, and go to state 186
+
+    $default  reduce using rule 109 (typed_list_variable)
+
+    typed_list_variable  go to state 262
+
+
+state 225
+
+   77 f_exp: OPEN_PAREN NAME term_star . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 263
+
+
+state 226
+
+   78 f_exp: OPEN_PAREN MINUS_TOK f_exp . CLOSE_PAREN
+   80      | OPEN_PAREN MINUS_TOK f_exp . f_exp CLOSE_PAREN
+
+    NUM          shift, and go to state 119
+    OPEN_PAREN   shift, and go to state 120
+    CLOSE_PAREN  shift, and go to state 264
+
+    f_exp  go to state 265
+
+
+state 227
+
+   79 f_exp: OPEN_PAREN AD_TOK f_exp . f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 266
+
+
+state 228
+
+   81 f_exp: OPEN_PAREN MU_TOK f_exp . f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 267
+
+
+state 229
+
+   82 f_exp: OPEN_PAREN DI_TOK f_exp . f_exp CLOSE_PAREN
+
+    NUM         shift, and go to state 119
+    OPEN_PAREN  shift, and go to state 120
+
+    f_exp  go to state 268
+
+
+state 230
+
+   58 adl_goal_description1: OPEN_PAREN LE_TOK f_exp f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 58 (adl_goal_description1)
+
+
+state 231
+
+   59 adl_goal_description1: OPEN_PAREN LEQ_TOK f_exp f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 59 (adl_goal_description1)
+
+
+state 232
+
+   60 adl_goal_description1: OPEN_PAREN EQ_TOK f_exp f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 60 (adl_goal_description1)
+
+
+state 233
+
+   61 adl_goal_description1: OPEN_PAREN GEQ_TOK f_exp f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 61 (adl_goal_description1)
+
+
+state 234
+
+   62 adl_goal_description1: OPEN_PAREN GE_TOK f_exp f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 62 (adl_goal_description1)
+
+
+state 235
+
+  111 typed_list_variable: VARIABLE MINUS_TOK . NAME typed_list_variable
+
+    NAME  shift, and go to state 269
+
+
+state 236
+
+  110 typed_list_variable: VARIABLE EITHER_TOK . name_plus CLOSE_PAREN typed_list_variable
+
+    NAME  shift, and go to state 58
+
+    name_plus  go to state 270
+
+
+state 237
+
+  112 typed_list_variable: VARIABLE typed_list_variable .
+
+    $default  reduce using rule 112 (typed_list_variable)
+
+
+state 238
+
+   25 pre_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @5 . CLOSE_PAREN pre_GD CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 271
+
+
+state 239
+
+   66 adl_goal_description1: OPEN_PAREN IMPLY_TOK adl_goal_description adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 66 (adl_goal_description1)
+
+
+state 240
+
+   67 adl_goal_description1: OPEN_PAREN dis_EXISTS_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 272
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 241
+
+   26 pref_GD: OPEN_PAREN PREFERENCE_TOK NAME adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 26 (pref_GD)
+
+
+state 242
+
+   88 ground_f_exp: OPEN_PAREN MINUS_TOK ground_f_exp ground_f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 88 (ground_f_exp)
+
+
+state 243
+
+   86 ground_f_exp: OPEN_PAREN AD_TOK ground_f_exp plus_ground_f_exp_plus CLOSE_PAREN .
+
+    $default  reduce using rule 86 (ground_f_exp)
+
+
+state 244
+
+   92 plus_ground_f_exp_plus: plus_ground_f_exp_plus ground_f_exp .
+
+    $default  reduce using rule 92 (plus_ground_f_exp_plus)
+
+
+state 245
+
+   87 ground_f_exp: OPEN_PAREN MU_TOK ground_f_exp mul_ground_f_exp_plus CLOSE_PAREN .
+
+    $default  reduce using rule 87 (ground_f_exp)
+
+
+state 246
+
+   94 mul_ground_f_exp_plus: mul_ground_f_exp_plus ground_f_exp .
+
+    $default  reduce using rule 94 (mul_ground_f_exp_plus)
+
+
+state 247
+
+   89 ground_f_exp: OPEN_PAREN DI_TOK ground_f_exp ground_f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 89 (ground_f_exp)
+
+
+state 248
+
+   33 pref_con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @6 . CLOSE_PAREN pref_con_GD CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 273
+
+
+state 249
+
+   34 pref_con_GD: OPEN_PAREN PREFERENCE_TOK NAME con_GD CLOSE_PAREN .
+
+    $default  reduce using rule 34 (pref_con_GD)
+
+
+state 250
+
+   42 con_GD1: OPEN_PAREN . AT_END_TOK adl_goal_description CLOSE_PAREN
+   43        | OPEN_PAREN . ALWAYS_TOK adl_goal_description CLOSE_PAREN
+   44        | OPEN_PAREN . SOMETIME_TOK adl_goal_description CLOSE_PAREN
+   45        | OPEN_PAREN . WITHIN_TOK NUM adl_goal_description CLOSE_PAREN
+   46        | OPEN_PAREN . AT_MOST_ONCE_TOK adl_goal_description CLOSE_PAREN
+   47        | OPEN_PAREN . SOMETIME_AFTER_TOK adl_goal_description adl_goal_description CLOSE_PAREN
+   48        | OPEN_PAREN . SOMETIME_BEFORE_TOK adl_goal_description adl_goal_description CLOSE_PAREN
+   49        | OPEN_PAREN . ALWAYS_WITHIN_TOK NUM adl_goal_description adl_goal_description CLOSE_PAREN
+   50        | OPEN_PAREN . HOLD_DURING_TOK NUM NUM adl_goal_description CLOSE_PAREN
+   51        | OPEN_PAREN . HOLD_AFTER_TOK NUM adl_goal_description CLOSE_PAREN
+
+    WITHIN_TOK           shift, and go to state 92
+    SOMETIME_TOK         shift, and go to state 93
+    ALWAYS_TOK           shift, and go to state 94
+    AT_MOST_ONCE_TOK     shift, and go to state 95
+    SOMETIME_AFTER_TOK   shift, and go to state 96
+    SOMETIME_BEFORE_TOK  shift, and go to state 97
+    ALWAYS_WITHIN_TOK    shift, and go to state 98
+    HOLD_DURING_TOK      shift, and go to state 99
+    HOLD_AFTER_TOK       shift, and go to state 100
+    AT_END_TOK           shift, and go to state 101
+
+
+state 251
+
+   53 con_GD_star: con_GD1 . con_GD_star
+
+    OPEN_PAREN  shift, and go to state 250
+
+    $default  reduce using rule 52 (con_GD_star)
+
+    con_GD1      go to state 251
+    con_GD_star  go to state 274
+
+
+state 252
+
+   40 con_GD: OPEN_PAREN dis_AND_TOK con_GD_star . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 275
+
+
+state 253
+
+   41 con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN . typed_list_variable CLOSE_PAREN con_GD1 CLOSE_PAREN
+
+    VARIABLE  shift, and go to state 186
+
+    $default  reduce using rule 109 (typed_list_variable)
+
+    typed_list_variable  go to state 276
+
+
+state 254
+
+   45 con_GD1: OPEN_PAREN WITHIN_TOK NUM adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 45 (con_GD1)
+
+
+state 255
+
+   47 con_GD1: OPEN_PAREN SOMETIME_AFTER_TOK adl_goal_description adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 47 (con_GD1)
+
+
+state 256
+
+   48 con_GD1: OPEN_PAREN SOMETIME_BEFORE_TOK adl_goal_description adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 48 (con_GD1)
+
+
+state 257
+
+   49 con_GD1: OPEN_PAREN ALWAYS_WITHIN_TOK NUM adl_goal_description adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 277
+
+
+state 258
+
+   50 con_GD1: OPEN_PAREN HOLD_DURING_TOK NUM NUM adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 278
+
+
+state 259
+
+   51 con_GD1: OPEN_PAREN HOLD_AFTER_TOK NUM adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 51 (con_GD1)
+
+
+state 260
+
+   73 init_el: OPEN_PAREN EQ_TOK OPEN_PAREN NAME name_star CLOSE_PAREN . NUM CLOSE_PAREN
+
+    NUM  shift, and go to state 279
+
+
+state 261
+
+   56 adl_goal_description: OPEN_PAREN dis_AND_TOK adl_goal_description_star CLOSE_PAREN .
+
+    $default  reduce using rule 56 (adl_goal_description)
+
+
+state 262
+
+   57 adl_goal_description: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable . CLOSE_PAREN adl_goal_description CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 280
+
+
+state 263
+
+   77 f_exp: OPEN_PAREN NAME term_star CLOSE_PAREN .
+
+    $default  reduce using rule 77 (f_exp)
+
+
+state 264
+
+   78 f_exp: OPEN_PAREN MINUS_TOK f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 78 (f_exp)
+
+
+state 265
+
+   80 f_exp: OPEN_PAREN MINUS_TOK f_exp f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 281
+
+
+state 266
+
+   79 f_exp: OPEN_PAREN AD_TOK f_exp f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 282
+
+
+state 267
+
+   81 f_exp: OPEN_PAREN MU_TOK f_exp f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 283
+
+
+state 268
+
+   82 f_exp: OPEN_PAREN DI_TOK f_exp f_exp . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 284
+
+
+state 269
+
+  111 typed_list_variable: VARIABLE MINUS_TOK NAME . typed_list_variable
+
+    VARIABLE  shift, and go to state 186
+
+    $default  reduce using rule 109 (typed_list_variable)
+
+    typed_list_variable  go to state 285
+
+
+state 270
+
+  110 typed_list_variable: VARIABLE EITHER_TOK name_plus . CLOSE_PAREN typed_list_variable
+
+    CLOSE_PAREN  shift, and go to state 286
+
+
+state 271
+
+   25 pre_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @5 CLOSE_PAREN . pre_GD CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 45
+
+    pre_GD                 go to state 287
+    pref_GD                go to state 47
+    adl_goal_description1  go to state 48
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 272
+
+   67 adl_goal_description1: OPEN_PAREN dis_EXISTS_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 288
+
+
+state 273
+
+   33 pref_con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @6 CLOSE_PAREN . pref_con_GD CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 54
+
+    pref_con_GD  go to state 289
+    con_GD1      go to state 56
+
+
+state 274
+
+   53 con_GD_star: con_GD1 con_GD_star .
+
+    $default  reduce using rule 53 (con_GD_star)
+
+
+state 275
+
+   40 con_GD: OPEN_PAREN dis_AND_TOK con_GD_star CLOSE_PAREN .
+
+    $default  reduce using rule 40 (con_GD)
+
+
+state 276
+
+   41 con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable . CLOSE_PAREN con_GD1 CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 290
+
+
+state 277
+
+   49 con_GD1: OPEN_PAREN ALWAYS_WITHIN_TOK NUM adl_goal_description adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 49 (con_GD1)
+
+
+state 278
+
+   50 con_GD1: OPEN_PAREN HOLD_DURING_TOK NUM NUM adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 50 (con_GD1)
+
+
+state 279
+
+   73 init_el: OPEN_PAREN EQ_TOK OPEN_PAREN NAME name_star CLOSE_PAREN NUM . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 291
+
+
+state 280
+
+   57 adl_goal_description: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN . adl_goal_description CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 115
+
+    adl_goal_description   go to state 292
+    adl_goal_description1  go to state 117
+    literal_term           go to state 49
+    atomic_formula_term    go to state 50
+
+
+state 281
+
+   80 f_exp: OPEN_PAREN MINUS_TOK f_exp f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 80 (f_exp)
+
+
+state 282
+
+   79 f_exp: OPEN_PAREN AD_TOK f_exp f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 79 (f_exp)
+
+
+state 283
+
+   81 f_exp: OPEN_PAREN MU_TOK f_exp f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 81 (f_exp)
+
+
+state 284
+
+   82 f_exp: OPEN_PAREN DI_TOK f_exp f_exp CLOSE_PAREN .
+
+    $default  reduce using rule 82 (f_exp)
+
+
+state 285
+
+  111 typed_list_variable: VARIABLE MINUS_TOK NAME typed_list_variable .
+
+    $default  reduce using rule 111 (typed_list_variable)
+
+
+state 286
+
+  110 typed_list_variable: VARIABLE EITHER_TOK name_plus CLOSE_PAREN . typed_list_variable
+
+    VARIABLE  shift, and go to state 186
+
+    $default  reduce using rule 109 (typed_list_variable)
+
+    typed_list_variable  go to state 293
+
+
+state 287
+
+   25 pre_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @5 CLOSE_PAREN pre_GD . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 294
+
+
+state 288
+
+   67 adl_goal_description1: OPEN_PAREN dis_EXISTS_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 67 (adl_goal_description1)
+
+
+state 289
+
+   33 pref_con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @6 CLOSE_PAREN pref_con_GD . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 295
+
+
+state 290
+
+   41 con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN . con_GD1 CLOSE_PAREN
+
+    OPEN_PAREN  shift, and go to state 250
+
+    con_GD1  go to state 296
+
+
+state 291
+
+   73 init_el: OPEN_PAREN EQ_TOK OPEN_PAREN NAME name_star CLOSE_PAREN NUM CLOSE_PAREN .
+
+    $default  reduce using rule 73 (init_el)
+
+
+state 292
+
+   57 adl_goal_description: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN adl_goal_description . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 297
+
+
+state 293
+
+  110 typed_list_variable: VARIABLE EITHER_TOK name_plus CLOSE_PAREN typed_list_variable .
+
+    $default  reduce using rule 110 (typed_list_variable)
+
+
+state 294
+
+   25 pre_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @5 CLOSE_PAREN pre_GD CLOSE_PAREN .
+
+    $default  reduce using rule 25 (pre_GD)
+
+
+state 295
+
+   33 pref_con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable @6 CLOSE_PAREN pref_con_GD CLOSE_PAREN .
+
+    $default  reduce using rule 33 (pref_con_GD)
+
+
+state 296
+
+   41 con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN con_GD1 . CLOSE_PAREN
+
+    CLOSE_PAREN  shift, and go to state 298
+
+
+state 297
+
+   57 adl_goal_description: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN adl_goal_description CLOSE_PAREN .
+
+    $default  reduce using rule 57 (adl_goal_description)
+
+
+state 298
+
+   41 con_GD: OPEN_PAREN Fdis_ORdis_ALL_TOK OPEN_PAREN typed_list_variable CLOSE_PAREN con_GD1 CLOSE_PAREN .
+
+    $default  reduce using rule 41 (con_GD)
