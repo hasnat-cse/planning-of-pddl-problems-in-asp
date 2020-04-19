@@ -1,15 +1,12 @@
 % IPC5 Domain: TPP Propositional
 
+% Non conflicting Parallel actions are allowed
+
 #show load/8.
 #show unload/8.
 #show drive/4.
 #show buy/8.
 
-%#show at/3.
-%#show loaded/4.
-%#show ready_to_load/4.
-%#show stored/3.
-%#show on_sale/4.
 
 time(0..steps).
 
@@ -158,6 +155,7 @@ goal :- time(T), goal(T).
 
 
 %constraints
+% Same truck at two different places
 :- truck(Tr), place(From), place(To), time(T), From != To,
 	at(Tr,From,T), at(Tr,To,T).
 

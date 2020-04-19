@@ -1,5 +1,7 @@
 % IPC8 Domain: Childsnack
 
+% Non conflicting Parallel actions are allowed
+
 #show make_sandwich_no_gluten/4.
 #show make_sandwich/4.
 #show put_on_tray/3.

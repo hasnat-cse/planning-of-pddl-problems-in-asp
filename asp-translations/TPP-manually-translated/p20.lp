@@ -292,5 +292,5 @@ goal(T):- time(T),
 	stored(goods12, level1, T),
 	stored(goods13, level3, T),
 	stored(goods14, level3, T),
-	stored(goods14, level1, T).
+	stored(goods15, level1, T).
 

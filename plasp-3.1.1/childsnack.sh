@@ -9,7 +9,7 @@ do
 
 echo "translating Childsnack problem #$i"
 
-./plasp  translate ../domains/Childsnack-IPC8/domain.pddl  ../domains/Childsnack-IPC8/child-snack_pfile0$i.pddl  >  ./Childsnack-plasp-translated/instance_0$i
+./plasp  translate ../domains/Childsnack-IPC8/domain.pddl  ../domains/Childsnack-IPC8/child-snack_pfile0$i.pddl  >  ./Childsnack-plasp-translated/instance_0$i.lp
 
 
 i=`expr $i + 1`
@@ -27,7 +27,7 @@ do
 
 echo "Translating Childsnack problem #$i"
 
-./plasp  translate ../domains/Childsnack-IPC8/domain.pddl  ../domains/Childsnack-IPC8/child-snack_pfile$i.pddl  >  ./Childsnack-plasp-translated/instance_$i
+./plasp  translate ../domains/Childsnack-IPC8/domain.pddl  ../domains/Childsnack-IPC8/child-snack_pfile$i.pddl  >  ./Childsnack-plasp-translated/instance_$i.lp
 
 
 
