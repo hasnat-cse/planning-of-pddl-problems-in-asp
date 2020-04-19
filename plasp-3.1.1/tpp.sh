@@ -9,7 +9,7 @@ do
 
 echo "translating TPP problem #$i"
 
-./plasp  translate ../domains/TPP-Propositional-IPC5/domain.pddl  ../domains/TPP-Propositional-IPC5/p0$i.pddl  >  ./TPP-asp-translated/instance_0$i
+./plasp  translate ../domains/TPP-Propositional-IPC5/domain.pddl  ../domains/TPP-Propositional-IPC5/p0$i.pddl  >  ./TPP-plasp-translated/instance_0$i.lp
 
 
 i=`expr $i + 1`
@@ -27,7 +27,7 @@ do
 
 echo "Translating TPP problem #$i"
 
-./plasp  translate ../domains/TPP-Propositional-IPC5/domain.pddl  ../domains/TPP-Propositional-IPC5/p$i.pddl  >  ./TPP-asp-translated/instance_$i
+./plasp  translate ../domains/TPP-Propositional-IPC5/domain.pddl  ../domains/TPP-Propositional-IPC5/p$i.pddl  >  ./TPP-plasp-translated/instance_$i.lp
 
 
 
