@@ -77,6 +77,10 @@ change_depot(G,T):-
 	goods(G), time(T),
 	unload(G,Tr,D,L1,L2,L3,L4,T).
 
+buying(G,M,T):-
+	goods(G), market(M), time(T),
+	buy(Tr,G,M,L1,L2,L3,L4,T).
+
 
 %fluents
 loaded(G,Tr,L4,T+1):-
@@ -131,9 +135,9 @@ ready_to_load(G,M,L1,T+1):-
 		not change_market(G,M,T).
 		
 stored(G,L4,T+1):-
-		goods(G), truck(Tr), depot(D), level(L1), level(L2), level(L3), level(L4), time(T),
+		goods(G), level(L4), time(T),
 		stored(G,L4,T), 
-		not unload(G,Tr,D,L1,L2,L3,L4,T).
+		not change_depot(G,T).
 
 at(Tr,To,T+1):-
 		truck(Tr), place(To), time(T),
@@ -141,9 +145,9 @@ at(Tr,To,T+1):-
 		not driving(Tr,T).
 
 on_sale(G,M,L1,T+1):-
-		goods(G), truck(Tr), market(M), level(L1), level(L2), level(L3), level(L4), time(T),
+		goods(G), market(M), level(L1), time(T),
 		on_sale(G,M,L1,T),
-		not buy(Tr,G,M,L1,L2,L3,L4,T).
+		not buying(G,M,T).
 
 
 %goal
