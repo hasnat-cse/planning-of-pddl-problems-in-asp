@@ -1,0 +1,42 @@
+
+; Time 0.00
+; ParsingTime 0.00
+; NrActions 34
+; MakeSpan
+; MetricValue
+; PlanningTechnique Modified-FF(enforced hill-climbing search) as the subplanner
+
+0.001: (UP F0 F15) [1]
+1.002: (BOARD F15 P4) [1]
+2.003: (DOWN F15 F14) [1]
+3.004: (BOARD F14 P5) [1]
+4.005: (BOARD F14 P6) [1]
+5.006: (DOWN F14 F5) [1]
+6.007: (BOARD F5 P7) [1]
+7.008: (UP F5 F6) [1]
+8.009: (BOARD F6 P8) [1]
+9.010: (DOWN F6 F1) [1]
+10.011: (DEPART F1 P4) [1]
+11.012: (UP F1 F13) [1]
+12.013: (DEPART F13 P5) [1]
+13.014: (DOWN F13 F7) [1]
+14.015: (DEPART F7 P6) [1]
+15.016: (DOWN F7 F4) [1]
+16.017: (DEPART F4 P7) [1]
+17.018: (DOWN F4 F0) [1]
+18.019: (DEPART F0 P8) [1]
+19.020: (UP F0 F1) [1]
+20.021: (BOARD F1 P0) [1]
+21.022: (UP F1 F9) [1]
+22.023: (BOARD F9 P1) [1]
+23.024: (DOWN F9 F5) [1]
+24.025: (BOARD F5 P2) [1]
+25.026: (UP F5 F10) [1]
+26.027: (BOARD F10 P3) [1]
+27.028: (UP F10 F16) [1]
+28.029: (DEPART F16 P0) [1]
+29.030: (DOWN F16 F7) [1]
+30.031: (DEPART F7 P1) [1]
+31.032: (DEPART F7 P2) [1]
+32.033: (UP F7 F12) [1]
+33.034: (DEPART F12 P3) [1]

@@ -1,0 +1,22 @@
+; Time 0.30
+; ParsingTime    0.00
+; MakeSpan 14
+0: (UP F0 F9) [1]
+1: (BOARD F9 P1) [1]
+1: (BOARD F9 P4) [1]
+2: (DOWN F9 F2) [1]
+3: (BOARD F2 P5) [1]
+4: (DOWN F2 F1) [1]
+5: (DEPART F1 P4) [1]
+6: (UP F1 F5) [1]
+7: (BOARD F5 P2) [1]
+8: (UP F5 F7) [1]
+9: (DEPART F7 P1) [1]
+9: (DEPART F7 P2) [1]
+9: (DEPART F7 P5) [1]
+9: (BOARD F7 P0) [1]
+10: (UP F7 F10) [1]
+11: (DEPART F10 P0) [1]
+11: (BOARD F10 P3) [1]
+12: (DOWN F10 F0) [1]
+13: (DEPART F0 P3) [1]
