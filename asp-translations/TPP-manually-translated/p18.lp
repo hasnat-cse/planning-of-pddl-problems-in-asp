@@ -1,4 +1,4 @@
-#const steps=10.
+#const steps=11.
 
 %objects
 goods(goods1; goods2; goods3; goods4; goods5; goods6; goods7; goods8; goods9; goods10; goods11; goods12; goods13).

@@ -6,7 +6,7 @@
 % - value '4': "exists" parallel actions like '3' implemented by acyclicity
 % - otherwise: sequential actions
 
-#const _parallel = 5.
+#const _parallel = 1.
 
 % Constant '_shallow' to cheaply approximate mutually disabling parallel actions
 % - value '0': detect incompatible pre/postconditions to reduce parallel actions
