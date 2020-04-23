@@ -4,4 +4,4 @@ To run plasp translated instances located in asp-translations folder (change the
 
 
 To run manually translated problems located in asp-translations folder (change the domain file and problem file as needed):
-	./manual_inc_clingo.sh ../asp-translations/Elevator-manually-translated/domain.lp ../asp-translations/Elevator-manually-translated/s5-0.lp
+	./incremental_solver.sh ../asp-translations/Elevator-manually-translated/domain.lp ../asp-translations/Elevator-manually-translated/s5-0.lp

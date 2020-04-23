@@ -2,7 +2,7 @@
 
 if [[ $# -ne 2 ]]
 then
-	echo "usage: ./manual_inc_clingo.sh domain_file problem_file"
+	echo "usage: ./incremental_solver.sh domain_file problem_file"
 	exit 1
 fi
 
